@@ -6,9 +6,11 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 
 // Component Imports
 import { Menu, MenuItem } from '@menu/vertical-menu'
+import { GenerateVerticalMenu } from '@/components/GenerateMenu'
 
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
+import verticalMenuData from '@/data/navigation/verticalMenuData'
 
 // Styled Component Imports
 import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNavExpandIcon'
@@ -48,7 +50,7 @@ const VerticalMenu = ({ scrollMenu }) => {
     >
       {/* Incase you also want to scroll NavHeader to scroll with Vertical Menu, remove NavHeader from above and paste it below this comment */}
       {/* Vertical Menu */}
-      <Menu
+      {/* <Menu
         popoutMenuOffset={{ mainAxis: 23 }}
         menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
         renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
@@ -64,16 +66,16 @@ const VerticalMenu = ({ scrollMenu }) => {
         <MenuItem href='/test' icon={<i className='tabler-info-circle' />}>
           test
         </MenuItem>
+      </Menu> */}
+      <Menu
+        popoutMenuOffset={{ mainAxis: 23 }}
+        menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
+        renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
+        renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
+        menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
+      >
+        <GenerateVerticalMenu menuData={verticalMenuData()} />
       </Menu>
-      {/* <Menu
-          popoutMenuOffset={{ mainAxis: 23 }}
-          menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
-          renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
-          renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
-          menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
-        >
-          <GenerateVerticalMenu menuData={menuData(dictionary)} />
-        </Menu> */}
     </ScrollWrapper>
   )
 }

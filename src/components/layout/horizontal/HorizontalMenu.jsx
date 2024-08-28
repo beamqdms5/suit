@@ -4,9 +4,11 @@ import { useTheme } from '@mui/material/styles'
 // Component Imports
 import HorizontalNav, { Menu, MenuItem } from '@menu/horizontal-menu'
 import VerticalNavContent from './VerticalNavContent'
+import { GenerateHorizontalMenu } from '@/components/GenerateMenu'
 
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
+import verticalMenuData from '@/data/navigation/verticalMenuData'
 
 // Styled Component Imports
 import StyledHorizontalNavExpandIcon from '@menu/styles/horizontal/StyledHorizontalNavExpandIcon'
@@ -48,7 +50,7 @@ const HorizontalMenu = () => {
         backgroundColor: 'var(--mui-palette-background-paper)'
       }}
     >
-      <Menu
+      {/* <Menu
         rootStyles={menuRootStyles(theme)}
         renderExpandIcon={({ level }) => <RenderExpandIcon level={level} />}
         menuItemStyles={menuItemStyles(theme, 'tabler-circle')}
@@ -72,27 +74,27 @@ const HorizontalMenu = () => {
         <MenuItem href='/about' icon={<i className='tabler-info-circle' />}>
           About
         </MenuItem>
+      </Menu> */}
+      <Menu
+        rootStyles={menuRootStyles(theme)}
+        renderExpandIcon={({ level }) => <RenderExpandIcon level={level} />}
+        menuItemStyles={menuItemStyles(theme, 'tabler-circle')}
+        renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
+        popoutMenuOffset={{
+          mainAxis: ({ level }) => (level && level > 0 ? 14 : 12),
+          alignmentAxis: 0
+        }}
+        verticalMenuProps={{
+          menuItemStyles: verticalMenuItemStyles(verticalNavOptions, theme),
+          renderExpandIcon: ({ open }) => (
+            <RenderVerticalExpandIcon open={open} transitionDuration={transitionDuration} />
+          ),
+          renderExpandedMenuItemIcon: { icon: <i className='tabler-circle text-xs' /> },
+          menuSectionStyles: verticalMenuSectionStyles(verticalNavOptions, theme)
+        }}
+      >
+        <GenerateHorizontalMenu menuData={verticalMenuData()} />
       </Menu>
-      {/* <Menu
-          rootStyles={menuRootStyles(theme)}
-          renderExpandIcon={({ level }) => <RenderExpandIcon level={level} />}
-          menuItemStyles={menuItemStyles(theme, 'tabler-circle')}
-          renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
-          popoutMenuOffset={{
-            mainAxis: ({ level }) => (level && level > 0 ? 14 : 12),
-            alignmentAxis: 0
-          }}
-          verticalMenuProps={{
-            menuItemStyles: verticalMenuItemStyles(verticalNavOptions, theme),
-            renderExpandIcon: ({ open }) => (
-              <RenderVerticalExpandIcon open={open} transitionDuration={transitionDuration} />
-            ),
-            renderExpandedMenuItemIcon: { icon: <i className='tabler-circle text-xs' /> },
-            menuSectionStyles: verticalMenuSectionStyles(verticalNavOptions, theme)
-          }}
-        >
-          <GenerateHorizontalMenu menuData={menuData(dictionary)} />
-        </Menu> */}
     </HorizontalNav>
   )
 }

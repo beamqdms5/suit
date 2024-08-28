@@ -8,6 +8,11 @@ const horizontalMenuData = () => [
     label: 'About',
     href: '/about',
     icon: 'tabler-info-circle'
+  },
+  {
+    label: 'Test',
+    href: '/test',
+    icon: 'tabler-info-circle'
   }
 ]
 
