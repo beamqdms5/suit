@@ -1,3 +1,6 @@
+// Next Imports
+import { useParams } from 'next/navigation'
+
 // MUI Imports
 import { useTheme } from '@mui/material/styles'
 
@@ -5,12 +8,12 @@ import { useTheme } from '@mui/material/styles'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 // Component Imports
-import { Menu, MenuItem } from '@menu/vertical-menu'
-import { GenerateVerticalMenu } from '@/components/GenerateMenu'
+import { Menu, SubMenu, MenuItem, MenuSection } from '@menu/vertical-menu'
+import CustomChip from '@core/components/mui/Chip'
 
+// import { GenerateVerticalMenu } from '@components/GenerateMenu'
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
-import verticalMenuData from '@/data/navigation/verticalMenuData'
 
 // Styled Component Imports
 import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNavExpandIcon'
@@ -25,13 +28,15 @@ const RenderExpandIcon = ({ open, transitionDuration }) => (
   </StyledVerticalNavExpandIcon>
 )
 
-const VerticalMenu = ({ scrollMenu }) => {
+const VerticalMenu = ({ dictionary, scrollMenu }) => {
   // Hooks
   const theme = useTheme()
   const verticalNavOptions = useVerticalNav()
+  const params = useParams()
 
   // Vars
   const { isBreakpointReached, transitionDuration } = verticalNavOptions
+  const { lang: locale } = params
   const ScrollWrapper = isBreakpointReached ? 'div' : PerfectScrollbar
 
   return (
@@ -50,23 +55,6 @@ const VerticalMenu = ({ scrollMenu }) => {
     >
       {/* Incase you also want to scroll NavHeader to scroll with Vertical Menu, remove NavHeader from above and paste it below this comment */}
       {/* Vertical Menu */}
-      {/* <Menu
-        popoutMenuOffset={{ mainAxis: 23 }}
-        menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
-        renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
-        renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
-        menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
-      >
-        <MenuItem href='/home' icon={<i className='tabler-smart-home' />}>
-          Home
-        </MenuItem>
-        <MenuItem href='/about' icon={<i className='tabler-info-circle' />}>
-          About
-        </MenuItem>
-        <MenuItem href='/test' icon={<i className='tabler-info-circle' />}>
-          test
-        </MenuItem>
-      </Menu> */}
       <Menu
         popoutMenuOffset={{ mainAxis: 23 }}
         menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
@@ -74,8 +62,27 @@ const VerticalMenu = ({ scrollMenu }) => {
         renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <GenerateVerticalMenu menuData={verticalMenuData()} />
+        <MenuSection>
+          <MenuItem href={`/${locale}/home`} icon={<i className='tabler-smart-home' />}>
+            {dictionary['navigation'].home}{' '}
+          </MenuItem>
+          <MenuItem href={`/${locale}/about`} icon={<i className='tabler-info-circle' />}>
+            {dictionary['navigation'].about}{' '}
+          </MenuItem>
+          <MenuItem href={`/${locale}/test`} icon={<i className='tabler-info-circle' />}>
+            {dictionary['navigation'].test}{' '}
+          </MenuItem>
+        </MenuSection>
       </Menu>
+      {/* <Menu
+          popoutMenuOffset={{ mainAxis: 23 }}
+          menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
+          renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
+          renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
+          menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
+        >
+          <GenerateVerticalMenu menuData={menuData(dictionary)} />
+        </Menu> */}
     </ScrollWrapper>
   )
 }
