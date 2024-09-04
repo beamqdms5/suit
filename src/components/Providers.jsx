@@ -2,6 +2,7 @@
 import { VerticalNavProvider } from '@menu/contexts/verticalNavContext'
 import { SettingsProvider } from '@core/contexts/settingsContext'
 import ThemeProvider from '@components/theme'
+import { NextAuthProvider } from '@/contexts/nextAuthProvider'
 
 // Util Imports
 import { getMode, getSettingsFromCookie, getSystemMode } from '@core/utils/serverHelpers'
@@ -16,13 +17,15 @@ const Providers = props => {
   const systemMode = getSystemMode()
 
   return (
-    <VerticalNavProvider>
-      <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
-        <ThemeProvider direction={direction} systemMode={systemMode}>
-          {children}
-        </ThemeProvider>
-      </SettingsProvider>
-    </VerticalNavProvider>
+    <NextAuthProvider basePath={process.env.NEXTAUTH_BASEPATH}>
+      <VerticalNavProvider>
+        <SettingsProvider settingsCookie={settingsCookie} mode={mode}>
+          <ThemeProvider direction={direction} systemMode={systemMode}>
+            {children}
+          </ThemeProvider>
+        </SettingsProvider>
+      </VerticalNavProvider>
+    </NextAuthProvider>
   )
 }
 
