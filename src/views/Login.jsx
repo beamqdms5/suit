@@ -19,6 +19,7 @@ import Divider from '@mui/material/Divider'
 
 // Third-party Imports
 import classnames from 'classnames'
+import { signIn } from 'next-auth/react'
 
 // Component Imports
 import Link from '@components/Link'
@@ -83,6 +84,23 @@ const LoginV2 = ({ mode }) => {
     borderedDarkIllustration
   )
 
+  const handleLogin = async e => {
+    e.preventDefault()
+
+    const result = await signIn('oidc', {
+      username: e.target.username.value,
+      password: e.target.password.value,
+      redirect: false // Yönlendirmeyi devre dışı bırak
+    })
+
+    if (result.error) {
+      console.error('Login failed:', result.error)
+    } else {
+      // Giriş başarılı olursa ana sayfaya yönlendir
+      router.push('/')
+    }
+  }
+
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
   return (
@@ -117,13 +135,19 @@ const LoginV2 = ({ mode }) => {
             noValidate
             autoComplete='off'
             onSubmit={e => {
-              e.preventDefault()
-              router.push('/')
+              handleLogin(e)
             }}
             className='flex flex-col gap-5'
           >
-            <CustomTextField autoFocus fullWidth label='Email or Username' placeholder='Enter your email or username' />
             <CustomTextField
+              name='username'
+              autoFocus
+              fullWidth
+              label='Email or Username'
+              placeholder='Enter your email or username'
+            />
+            <CustomTextField
+              name='password'
               fullWidth
               label='Password'
               placeholder='············'
